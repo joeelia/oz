@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Lara;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LaraController extends Controller
 {
@@ -14,7 +15,52 @@ class LaraController extends Controller
      */
     public function index()
     {
-        //
+        $xml=simplexml_load_file(asset('storage/array.xml')) or die("Error: Cannot create object");
+$json = json_encode($xml);
+$array = json_decode($json,TRUE);
+
+$mmfs = $array['Document']['Folder']['Placemark'];
+
+
+
+$mmfs = $array['Document']['Folder']['Placemark'];
+
+
+
+
+foreach ($mmfs as $mmf)
+{
+echo '<br>';
+echo '<br>';
+echo print_r($mmf['name'],true);
+echo '<br>';
+echo print_r($mmf['address'],true);
+echo '<br>';
+echo print_r($mmf['ExtendedData']['Data'][0]['value'],true);
+echo '<br>';
+echo print_r($mmf['ExtendedData']['Data'][1]['value'],true);
+echo '<br>';
+echo print_r($mmf['ExtendedData']['Data'][2]['value'],true);
+echo '<br>';
+echo print_r($mmf['ExtendedData']['Data'][3]['value'],true);
+echo '<br>';
+echo print_r($mmf['ExtendedData']['Data'][4]['value'],true);
+echo '<br>';
+
+$lara = new Lara();
+//On left field name in DB and on right field name in Form/view
+
+$lara->licensee_name = $mmf['name'];
+$lara->record_number= $mmf['ExtendedData']['Data'][0]['value'];
+$lara->record_type = $mmf['ExtendedData']['Data'][1]['value'];
+$lara->address= $mmf['address'];
+$lara->expiration_date = Carbon::createFromFormat('d/m/Y', $mmf['ExtendedData']['Data'][3]['value']);
+$lara->status= "1";
+$lara->claimed = "0";
+$lara->save();
+
+
+}
     }
 
     /**
