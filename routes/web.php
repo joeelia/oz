@@ -12,7 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('app');
 });
 
 Route::resource('/lara', 'LaraController');
+
+Route::post('/verify', 'LaraController@verify');

@@ -128,4 +128,22 @@ $lara->save();
     {
         //
     }
+
+    /**
+     * Verify the specified resource.
+     *
+     * @param  \App\Lara  $lara
+     * @return \Illuminate\Http\Response
+     */
+    public function verify(Request $request, Lara $lara)
+    {
+        $record = $request->input('record');
+        $lara = Lara::where('record_number', '=', $record)->first();
+            if ($lara === null) {
+                // record doesn't exist
+                return response()->json(['errors'=>"no, we dont see that value."],422);
+            } else {
+                return response()->json(['success'=>"We have signed you up for Beta!"],201);
+            }
+    }
 }
