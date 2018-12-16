@@ -11,11 +11,23 @@
 </style>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+		<link rel="apple-touch-icon" sizes="180x180" href="/branding/fav/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/branding/fav/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/branding/fav/favicon-16x16.png">
+		<link rel="manifest" href="/branding/fav/site.webmanifest">
+		<link rel="mask-icon" href="/branding/fav/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<meta property="og:title" content="OpenOunce Technologies" />
+		<meta property="og:type" content="image" />
+		<meta property="og:url" content="http://OpenOunce.com" />
+		<meta property="og:image" content="/branding/og-home.jpg" />
+		<meta property="og:description " content="The future of state approved marijuana facilities and services." />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
-        <title>Open Ounce</title>
+        <title>OpenOunce</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
