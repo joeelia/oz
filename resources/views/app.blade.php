@@ -28,13 +28,50 @@
 					<section class="intro">
 						<header>
 							<h1>Open Ounce</h1>
-							<p>A better Provisiong Platform for State Approved Vendors and Researchers. </p>
+							<p>A smarter platform for state approved marijuana vendors to connect.</p>
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
 						</header>
 						<div class="content">
-							<span class="image fill" data-position="center"><img src="images/pic01.jpg" alt="" /></span>
+											<!-- Section -->
+					<section id="app">
+						<div class="content">
+							<p><strong>Match your business</strong> in our state-approved database to continue. You will receive an email once your credentials have been verified.</p>
+							<form>
+									<p v-if="errors.length > 1" class ="danger">@{{errors}}</p>
+									<p v-if="success" class ="success">@{{success}}</p>
+								<div class="fields">
+                                    <div class="field half">
+                                            <input type="text" class="form-control" v-model="name" placeholder="Business Name">
+                                        </div>
+									<div class="field half">
+                                            <input type="text" class="form-control" v-model="email"  placeholder="Email">
+                                    </div>
+                                    
+                                    <div class="field">
+                                            <select v-model="type">
+                                                    <option disabled value="">Please select a license type</option>
+                                                    <option>Provisioning Center</option>
+                                                    <option>Grower</option>
+													<option>Processor</option>
+													<option>Secure Transporter</option>
+													<option>Safety Compliance Testing</option>
+                                                  </select>
+                            </div>
+                                    
+									<div class="field half">
+                                            <input type="text" class="form-control" v-model="record" placeholder="License Record Number">
+                                    </div>
+                                    <div class="field half">
+                                            <input type="text" class="form-control" v-model="phone" placeholder="Phone">
+                                        </div>
+								</div>
+								<ul class="actions">
+									<li><input  @click="handleSubmit" value="Verify" class="button primary" /></li>
+								</ul>
+							</form>
+						</div>
 						</div>
 					</section>
 
@@ -44,8 +81,7 @@
 							<h2>Why Us?</h2>
 						</header>
 						<div class="content">
-							<p><strong>Starting 2019</strong> provising centers will only be allowed to purchace from state licensed growers. Chances are that if you are a provising center then you typically only buy / know one or two state licensed grower.</p>
-							<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
+							<p><strong>Marijuana is changing</strong>, here at open ounce we believe knowing which businesses are authorized to interact with marijuana and which ones aren’t is the first step in legitimizing the industry. With the rush to obtain licensing; supply lines have been disrupted, connections have been lost, and quality has been compromised. We’re here to help your business succeed.</p>
 						</div>
 					</section>
 
@@ -333,74 +369,26 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 
 						</div>
 					</section>
-				-->
-
-				<!-- Section -->
-					<section id="app">
-						<header>
-							<h2>Get in touch</h2>
-						</header>
-						<div class="content">
-							<p><strong>Match your business</strong> in our state approved database to pre-register. You will recieve more information as the new year approaches.</p>
-							<form>
-									<p v-if="errors.length">
-													<ul>
-														<li class ="danger" v-for="error in errors">@{{ errors }}</li>
-													</ul>
-												</p>
-									<p v-if="success" class ="success">@{{success}}</p>
-								<div class="fields">
-                                    <div class="field half">
-                                            <input type="text" class="form-control" v-model="name" placeholder="Name">
-                                        </div>
-									<div class="field half">
-                                            <input type="text" class="form-control" v-model="email"  placeholder="Email">
-                                    </div>
-                                    
-                                    <div class="field">
-                                            <select v-model="type">
-                                                    <option disabled value="">Please select one</option>
-                                                    <option>Provisioner</option>
-                                                    <option>Grower</option>
-                                                    <option>Safety</option>
-                                                  </select>
-                            </div>
-                                    
-									<div class="field half">
-                                            <input type="text" class="form-control" v-model="record" placeholder="Record Number">
-                                    </div>
-                                    <div class="field half">
-                                            <input type="text" class="form-control" v-model="phone" placeholder="Phone">
-                                        </div>
-								</div>
-								<ul class="actions">
-									<li><input  @click="handleSubmit" value="Verify" class="button primary" /></li>
-								</ul>
-							</form>
-						</div>
+				--><section>
 						<footer>
 							<ul class="items">
 								<li>
 									<h3>Email</h3>
-									<a href="#">information@untitled.ext</a>
+									<a href="mailto:hello@openounce.com">hello@openounce.com</a>
 								</li>
 								<li>
 									<h3>Phone</h3>
-									<a href="#">(000) 000-0000</a>
+									<a href="tel:248-890-3333">248-890-3333</a>
 								</li>
 								<li>
 									<h3>Address</h3>
-									<span>1234 Somewhere Road, Nashville, TN 00000</span>
+									<span>13444 Prospect Avenue, Warren MI 48324</span>
 								</li>
 								<li>
 									<h3>Elsewhere</h3>
 									<ul class="icons">
-										<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
 										<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-										<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-										<li><a href="#" class="icon fa-codepen"><span class="label">Codepen</span></a></li>
 									</ul>
 								</li>
 							</ul>
@@ -408,7 +396,7 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 					</section>
 
 				<!-- Copyright -->
-					<div class="copyright">&copy; Open Ounce Technologies</div>
+					<div class="copyright">&copy; Open Ounce Technologies LLC</div>
 
 			</div>
 
@@ -439,9 +427,9 @@ const app = new Vue({
       phone: ''
   },
 
-  methods: {
+   methods: {
     handleSubmit() {
-        axios.post('/verify/', {
+        axios.post('/verify', {
             name: this.name,
             email: this.email,
             type: this.type,
