@@ -27,7 +27,7 @@
 				<!-- Intro -->
 					<section class="intro">
 						<header>
-							<h1>Open Ounce</h1>
+							<h1>Open Ounce OZZZZZZ</h1>
 							<p>A smarter platform for state approved marijuana vendors to connect.</p>
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
