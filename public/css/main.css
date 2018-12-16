@@ -3863,3 +3863,9 @@ input, select, textarea {
 		}
 
 	}
+
+	@media screen and (min-width: 1152px) {
+		#app {
+			top: 300px;
+		}
+	}

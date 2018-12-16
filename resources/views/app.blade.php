@@ -33,10 +33,7 @@
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
 						</header>
-						<div class="content">
-											<!-- Section -->
-					<section id="app">
-						<div class="content">
+						<div class="content top" id ="app">
 							<p><strong>Match your business</strong> in our state-approved database to continue. You will receive an email once your credentials have been verified.</p>
 							<form>
 									<p v-if="errors.length > 1" class ="danger">@{{errors}}</p>
@@ -71,7 +68,7 @@
 									<li><input  @click="handleSubmit" value="Verify" class="button primary" /></li>
 								</ul>
 							</form>
-						</div>
+						
 						</div>
 					</section>
 
