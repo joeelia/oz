@@ -23,6 +23,10 @@
 		<meta property="og:url" content="http://OpenOunce.com" />
 		<meta property="og:image" content="/branding/og-home.jpg" />
 		<meta property="og:description " content="The future of state approved marijuana facilities and services." />
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:description" content="The future of state approved marijuana facilities and services." />
+		<meta name="twitter:title" content="OpenOunce Technologies" />
+		<meta name="twitter:image" content="/branding/og-home.jpg" />
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
