@@ -71,7 +71,7 @@
                                     </div>
                                     
                                     <div class="field">
-                                            <select v-model="type" reqiured>
+                                            <select v-model="type" @change="clearInfoNext">
                                                     <option disabled value="">Please select a license type</option>
                                                     <option>Provisioning Center</option>
                                                     <option>Grower</option>
@@ -82,10 +82,15 @@
                             </div>
                                     
 									<div class="field half">
-                                            <input type="text" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == ''" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-C-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Provisioning Center'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'PC-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Processor'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'PR-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Secure Transporter'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'ST-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Safety Compliance Testing'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'SC-######'">
                                     </div>
                                     <div class="field half">
-                                            <input class="form-control" v-model="phone" placeholder="Phone" v-mask="'(###) ###-####'" type="tel" pattern="[0-9]*" v-on:keyup="clearInfo">
+                                            <input class="form-control" ref="phone" v-model="phone" placeholder="Phone" v-mask="'(###) ###-####'" type="tel" pattern="[0-9]*" v-on:keyup="clearInfo">
                                         </div>
 								</div>
 								<ul class="actions">
@@ -508,7 +513,18 @@ const app = new Vue({
 	clearInfo() {
 		this.errors = "";
 		this.success = "";
-	}
+	},
+	clearInfoNext() {
+		this.errors = "";
+		this.success = "";
+		this.$refs.record.focus();
+	},
+	recordRecorded(record) {
+		var sixDigits = /\d{6}/;
+		if (sixDigits.test(record)){
+		this.$refs.phone.focus();
+		}
+	},
   }
 })
 </script>
