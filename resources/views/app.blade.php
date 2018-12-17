@@ -8,6 +8,10 @@
 .success{
 	color:#fff!important;background-color:#4CAF50!important
 }
+
+.warning{
+	color:#fff!important;background-color:#f19c00!important
+}
 </style>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -54,6 +58,7 @@
 							<form>
 									<p v-if="errors.length > 1" class ="danger">@{{errors}}</p>
 									<p v-if="success" class ="success">@{{success}}</p>
+									<p v-if="warning" class ="warning">@{{warning}}</p>
 								<div class="fields">
                                     <div class="field half">
 											<input type="text" class="form-control" v-model="business" name="business" v-on:keyup="autoComplete" placeholder="Business Name" autocomplete="off">
@@ -450,6 +455,7 @@ const app = new Vue({
   data: {
 	  errors: [],
 	  success: '',
+	  warning: '',
       business: '',
       email: '',
       type: '',
@@ -460,6 +466,8 @@ const app = new Vue({
    methods: {
     handleSubmit() {
 		this.errors = "";
+		this.success = "";
+		this.warning= "";
 		if (this.business.length < 3) {
 			this.errors = "Please enter your business name.";
 		} else if (this.email.length < 3) {
@@ -481,6 +489,7 @@ const app = new Vue({
                             
 							console.log(response.data); 
 							this.success = response.data.success;
+							this.warning = response.data.warning;
 							this.errors = "";
                     })
                     .catch(error =>{
@@ -497,6 +506,7 @@ const app = new Vue({
 		this.results = [];
 		this.errors = "";
 		this.success = "";
+		this.warning= "";
     	if(this.business.length > 2){
 		 axios.get('/api/business',{params: {name: this.business}})
 		 	.then(response => {
@@ -509,14 +519,17 @@ const app = new Vue({
 		this.success = "";
 		this.business = licensee_name;
 		this.results = [];
+		this.warning= "";
 	},
 	clearInfo() {
 		this.errors = "";
 		this.success = "";
+		this.warning= "";
 	},
 	clearInfoNext() {
 		this.errors = "";
 		this.success = "";
+		this.warning= "";
 		this.$refs.record.focus();
 	},
 	recordRecorded(record) {

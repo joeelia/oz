@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Lara;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -139,17 +140,41 @@ $lara->save();
      */
     public function verify(Request $request, Lara $lara)
     {
+        $record = $request->input('record'); 
+        $lara = Lara::where('record_number', '=', $record)->first();
+        if ($lara === null) {
+            // record doesn't exist
+            return response()->json(['errors'=>"The information you entered does not match our state licensed database, please try again."],422);
+        } else {
+            $laraIsNotClaimed = Lara::where('record_number', '=', $record)
+                        ->where('claimed','=',0)
+                        ->first();
+                if ($laraIsNotClaimed === null) {
+                    // record doesn't exist
+                    return response()->json(['warning'=>"We have already registred this business. Please wait for Beta!"],201);
+                } else {
+                    $user = new User();
+                    $user->name = "unkown";
+                    $user->email = $request->input('email');
+                    $user->password= "randomstringgggg123";
+                    $user->phone = $request->input('phone');
+                    $user->save();
 
-      
-
-        $record = $request->input('record');
+                    $laraIsNotClaimed->claimed = 1;
+                    $laraIsNotClaimed->user_id = $user['id'];
+                    $laraIsNotClaimed->save();
+                    return response()->json(['success'=>"We have signed you up for Beta!"],201);
+                }
+        }
+/*
         $lara = Lara::where('record_number', '=', $record)->first();
             if ($lara === null) {
                 // record doesn't exist
-                return response()->json(['errors'=>"no, we dont see that value."],422);
-            } else {
+                return response()->json(['errors'=>"The information you entered does not match our state licensed database, please try again."],422);
+            } elseif (x) {
                 return response()->json(['success'=>"We have signed you up for Beta!"],201);
             }
+            */
     }
 
     public function businessName(Request $request, Lara $lara)
