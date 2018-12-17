@@ -153,6 +153,8 @@ $lara->save();
                     // record doesn't exist
                     return response()->json(['warning'=>"We have already registred this business. Please wait for Beta!"],201);
                 } else {
+                    $user = User::where('email', '=', $request->input('email'))->first();
+                    if ( $user['email'] === null ) {
                     $user = new User();
                     $user->name = "unkown";
                     $user->email = $request->input('email');
@@ -164,6 +166,9 @@ $lara->save();
                     $laraIsNotClaimed->user_id = $user['id'];
                     $laraIsNotClaimed->save();
                     return response()->json(['success'=>"We have signed you up for Beta!"],201);
+                    } else {
+                        return response()->json(['errors'=>"You have already signed up with this email, if you are trying to register another business please contact us."],422);
+                    }
                 }
         }
 /*
