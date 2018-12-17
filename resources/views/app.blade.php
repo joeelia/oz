@@ -56,22 +56,22 @@
 									<p v-if="success" class ="success">@{{success}}</p>
 								<div class="fields">
                                     <div class="field half">
-											<input type="text" class="form-control" v-model="business" v-on:keyup="autoComplete" placeholder="Business Name" autocomplete="off">
+											<input type="text" class="form-control" v-model="business" name="business" v-on:keyup="autoComplete" placeholder="Business Name" autocomplete="off">
 											<div class="panel-footer" v-if="results.length">
 													<ul class="list-group">
-													 <li class="list-group-item" v-for="result in results" @click="fillName(result.licensee_name)">
+													 <button  type="button" class="list-group-item" v-for="result in results" @click="fillName(result.licensee_name)">
 													  @{{ result.licensee_name }}
-													 </li>
+													 </button>
 													</ul>
 												   </div>
 												 
 										</div>
 									<div class="field half">
-                                            <input type="text" class="form-control" v-model="email"  placeholder="Email">
+                                            <input type="text" class="form-control" v-model="email"  placeholder="Email" v-on:keyup="clearInfo">
                                     </div>
                                     
                                     <div class="field">
-                                            <select v-model="type">
+                                            <select v-model="type" reqiured>
                                                     <option disabled value="">Please select a license type</option>
                                                     <option>Provisioning Center</option>
                                                     <option>Grower</option>
@@ -82,14 +82,14 @@
                             </div>
                                     
 									<div class="field half">
-                                            <input type="text" class="form-control" v-model="record" placeholder="License Record Number">
+                                            <input type="text" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo">
                                     </div>
                                     <div class="field half">
-                                            <input type="text" class="form-control" v-model="phone" placeholder="Phone">
+                                            <input class="form-control" v-model="phone" placeholder="Phone" v-mask="'(###) ###-####'" type="tel" pattern="[0-9]*" v-on:keyup="clearInfo">
                                         </div>
 								</div>
 								<ul class="actions">
-									<li><input  @click="handleSubmit" value="Verify" class="button primary" /></li>
+									<li><button type="button" @click="handleSubmit" value="Verify" class="button primary" />Verify</li>
 								</ul>
 							</form>
 						
@@ -434,12 +434,16 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/v-mask/dist/v-mask.min.js"></script>
+<script>
+Vue.use(VueMask.VueMaskPlugin);
+</script>
 <script>
 const app = new Vue({
   el:'#app',
   data: {
 	  errors: [],
-	  notFound: '',
 	  success: '',
       business: '',
       email: '',
@@ -447,10 +451,21 @@ const app = new Vue({
       record: '',
 	  phone: '',
 	  results: []
-  },
-
+  },  
    methods: {
     handleSubmit() {
+		this.errors = "";
+		if (this.business.length < 3) {
+			this.errors = "Please enter your business name.";
+		} else if (this.email.length < 3) {
+			this.errors = "Please enter your email.";
+		} else if (this.type.length < 3) {
+			this.errors = "Please select your license type.";
+		} else if (this.record.length < 9) {
+			this.errors = "Please enter your state licensed record. It usually looks like: Processor = PR-000000 / Grower = GR-C-000000 / Secure Transporter = ST-000000 / Safety Compliance = SC-000000 / Provisioning Center = PC-000000";
+		} else if (this.phone.length < 14) {
+			this.errors = "Please enter your 9 digit phone number, include your area code.";
+		} else {
         axios.post('/verify', {
             business: this.business,
             email: this.email,
@@ -468,12 +483,15 @@ const app = new Vue({
 						  console.log(response.data.errors);
 						  this.errors = response.data.errors;
 						  this.success = "";
-                    });
+					});
+				}
 
             console.log(this.business + this.email + this.type + this.record + this.phone);
 	},
 	autoComplete() {
 		this.results = [];
+		this.errors = "";
+		this.success = "";
     	if(this.business.length > 2){
 		 axios.get('/api/business',{params: {name: this.business}})
 		 	.then(response => {
@@ -482,8 +500,14 @@ const app = new Vue({
 		}
 	},
 	fillName(licensee_name) {
+		this.errors = "";
+		this.success = "";
 		this.business = licensee_name;
 		this.results = [];
+	},
+	clearInfo() {
+		this.errors = "";
+		this.success = "";
 	}
   }
 })

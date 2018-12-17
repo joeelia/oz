@@ -6,6 +6,7 @@ use App\Lara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 class LaraController extends Controller
 {
@@ -138,6 +139,9 @@ $lara->save();
      */
     public function verify(Request $request, Lara $lara)
     {
+
+      
+
         $record = $request->input('record');
         $lara = Lara::where('record_number', '=', $record)->first();
             if ($lara === null) {
