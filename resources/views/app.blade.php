@@ -56,10 +56,10 @@
 									<p v-if="success" class ="success">@{{success}}</p>
 								<div class="fields">
                                     <div class="field half">
-											<input type="text" class="form-control" v-model="name" v-on:keyup="autoComplete" placeholder="Business Name">
+											<input type="text" class="form-control" v-model="business" v-on:keyup="autoComplete" placeholder="Business Name" autocomplete="off">
 											<div class="panel-footer" v-if="results.length">
 													<ul class="list-group">
-													 <li class="list-group-item" v-for="result in results">
+													 <li class="list-group-item" v-for="result in results" @click="fillName(result.licensee_name)">
 													  @{{ result.licensee_name }}
 													 </li>
 													</ul>
@@ -441,7 +441,7 @@ const app = new Vue({
 	  errors: [],
 	  notFound: '',
 	  success: '',
-      name: '',
+      business: '',
       email: '',
       type: '',
       record: '',
@@ -452,7 +452,7 @@ const app = new Vue({
    methods: {
     handleSubmit() {
         axios.post('/verify', {
-            name: this.name,
+            business: this.business,
             email: this.email,
             type: this.type,
             record: this.record,
@@ -470,16 +470,20 @@ const app = new Vue({
 						  this.success = "";
                     });
 
-            console.log(this.name + this.email + this.type + this.record + this.phone);
+            console.log(this.business + this.email + this.type + this.record + this.phone);
 	},
 	autoComplete() {
 		this.results = [];
-    	if(this.name.length > 2){
-		 axios.get('/api/business',{params: {name: this.name}})
+    	if(this.business.length > 2){
+		 axios.get('/api/business',{params: {name: this.business}})
 		 	.then(response => {
-      			this.results = response.data;
+				  this.results = response.data;
 		 });
 		}
+	},
+	fillName(licensee_name) {
+		this.business = licensee_name;
+		this.results = [];
 	}
   }
 })
