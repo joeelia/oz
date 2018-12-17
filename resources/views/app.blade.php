@@ -56,8 +56,16 @@
 									<p v-if="success" class ="success">@{{success}}</p>
 								<div class="fields">
                                     <div class="field half">
-                                            <input type="text" class="form-control" v-model="name" placeholder="Business Name">
-                                        </div>
+											<input type="text" class="form-control" v-model="name" v-on:keyup="autoComplete" placeholder="Business Name">
+											<div class="panel-footer" v-if="results.length">
+													<ul class="list-group">
+													 <li class="list-group-item" v-for="result in results">
+													  @{{ result.licensee_name }}
+													 </li>
+													</ul>
+												   </div>
+												 
+										</div>
 									<div class="field half">
                                             <input type="text" class="form-control" v-model="email"  placeholder="Email">
                                     </div>
@@ -437,7 +445,8 @@ const app = new Vue({
       email: '',
       type: '',
       record: '',
-      phone: ''
+	  phone: '',
+	  results: []
   },
 
    methods: {
@@ -462,7 +471,16 @@ const app = new Vue({
                     });
 
             console.log(this.name + this.email + this.type + this.record + this.phone);
-    }
+	},
+	autoComplete() {
+		this.results = [];
+    	if(this.name.length > 2){
+		 axios.get('/api/business',{params: {name: this.name}})
+		 	.then(response => {
+      			this.results = response.data;
+		 });
+		}
+	}
   }
 })
 </script>

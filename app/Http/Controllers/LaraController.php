@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Input;
 
 class LaraController extends Controller
 {
@@ -145,5 +146,12 @@ $lara->save();
             } else {
                 return response()->json(['success'=>"We have signed you up for Beta!"],201);
             }
+    }
+
+    public function businessName(Request $request, Lara $lara)
+    {
+        $query = Input::get('name');
+        $lara = Lara::where('licensee_name','like','%'.$query.'%')->get();
+        return response()->json($lara);
     }
 }
