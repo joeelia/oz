@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Boolean;
+use App\Nova\Filters\LaraClaimed;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -80,7 +81,10 @@ class Lara extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new LaraClaimed,
+            new \App\Nova\Filters\LaraRecordType,
+        ];
     }
 
     /**
