@@ -137,7 +137,9 @@
                                             <select v-model="type" @change="clearInfoNext">
                                                     <option disabled value="">Please select a license type</option>
                                                     <option>Provisioning Center</option>
-                                                    <option>Grower</option>
+													<option>Class A Grower</option>
+													<option>Class B Grower</option>
+													<option>Class C Grower</option>
 													<option>Processor</option>
 													<option>Secure Transporter</option>
 													<option>Safety Compliance Testing</option>
@@ -146,7 +148,9 @@
                                     
 									<div class="field half">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == ''" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase">
-											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-C-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Class A Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-A-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Class B Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-B-######'">
+											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Class C Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-C-######'">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Provisioning Center'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'PC-######'">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Processor'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'PR-######'">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Secure Transporter'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'ST-######'">
