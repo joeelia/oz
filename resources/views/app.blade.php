@@ -148,7 +148,7 @@
                                     
 									<div class="field half">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == ''" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase">
-											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Class A Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-A-######'">
+											<input v-on:keyup="recordRecorded(record)" type="text" ref="record" v-if="type == 'Class A Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-A-######'">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Class B Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-B-######'">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Class C Grower'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'GR-C-######'">
 											<input v-on:keyup="recordRecorded(record)" type="tel" pattern="[0-9]*" ref="record" v-if="type == 'Provisioning Center'" class="form-control" v-model="record" placeholder="License Record Number" v-on:keyup="clearInfo" style="text-transform:uppercase" v-mask="'PC-######'">
