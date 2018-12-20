@@ -206,7 +206,7 @@
 							<h2>What Open Ounce Provides</h2>
 						</header>
 						<div class="content">
-							<p><strong>Our range of services</strong> have everything in an eays to use format to make your business run smoothly.</p>
+							<p><strong>Our range of services</strong> have everything in an easy to use format to make your business run smoothly.</p>
 							<ul class="feature-icons">
 								<li class="icon fa-laptop">Easy To Use Interface</li>
 								<li class="icon fa-bolt">Fast Transcations</li>
