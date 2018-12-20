@@ -12,6 +12,62 @@
 .warning{
 	color:#fff!important;background-color:#f19c00!important
 }
+
+
+
+.submit-container {
+  position: relative;
+}
+
+.submit-btn {
+  width: 100px;
+  color: #20BF7E;
+  font-size: 20px;
+  font-family: Arial;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px 20px 10px 20px;
+  border: solid #20BF7E 4px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: width .3s, margin .3s, background-color .3s, color .3s;
+}
+
+.submit-btn:hover {
+  background-color: #20BF7E;
+  color: white;
+}
+
+.submit-btn.round {
+  margin-left: 50px;
+  border-color: #CCCCCC;
+  background: white;
+  
+  /*  circle should be 50px width & height */
+  /* borderLeft + paddingLeft + paddingRight + borderRight  */
+  /* 4 + 20 + 20 + 4 = 48 + 2 = 50 */
+  width: 2px; 
+  /* borderTop + paddingTop + paddingBottom + borderBottom  */
+  /* 4 + 10 + 10 + 4 = 28 + 22 = 50 */
+  height: 22px;
+}
+.submit-btn.loaded {
+  color: white;
+  background-color: #20BF7E;
+}
+
+.loader-svg {
+  pointer-events: none;
+  position: absolute;
+  top: 0px;
+  left: 50px;
+  width: 50px; 
+  height: 50px; 
+  transform-origin: 25px 25px 25px;
+}
+
+
 </style>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -53,11 +109,13 @@
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
 						</header>
+						
 						<div class="content top" id ="app">
 							<p><strong>Match your business</strong> in our state-approved database to continue. You will receive an email once your credentials have been verified.</p>
+							<p v-show="loaded" class ="success">@{{success}}</p>
+							<div v-show="!loaded">
 							<form>
 									<p v-if="errors.length > 1" class ="danger">@{{errors}}</p>
-									<p v-if="success" class ="success">@{{success}}</p>
 									<p v-if="warning" class ="warning">@{{warning}}</p>
 								<div class="fields">
                                     <div class="field half">
@@ -98,8 +156,30 @@
                                             <input class="form-control" ref="phone" v-model="phone" placeholder="Phone" v-mask="'(###) ###-####'" type="tel" pattern="[0-9]*" v-on:keyup="clearInfo">
                                         </div>
 								</div>
+							</div>
 								<ul class="actions">
-									<li><button type="button" @click="handleSubmit" value="Verify" class="button primary" />Verify</li>
+									<!-- <li><button type="button" @click="handleSubmit" value="Verify" class="button primary" />Verify</li> -->
+															<div id="submit-button" class="submit-container">
+																	<div @click="handleSubmit" 
+																		 ref="submit-btn"
+																		 :class="buttonClass"
+																		 class="button primary">
+																	  <span v-show="!clicked">Submit</span>    
+																	  <span v-show="loaded">✔</span>
+																	</div>
+																	
+																	<!--  grey circle  -->
+																	<svg v-if="loading" class="loader-svg">
+																	  <path stroke="#CCCCCC" fill="none" stroke-width="4" d="M25,2.5A22.5,22.5 0 1 1 2.5,25A22.5,22.5 0 0 1 25,2.5"></path>
+																	</svg>
+																	
+																	<!--  green circle  -->
+																	<!--  circumference  -->
+																	<!-- 3.1416 * 50 = ~157 -->
+																	<svg v-if="loading" class="loader-svg">
+																	  <path stroke="#20BF7E" fill="none" stroke-width="4" d="M25,2.5A22.5,22.5 0 1 1 2.5,25A22.5,22.5 0 0 1 25,2.5" stroke-dasharray="157" :stroke-dashoffset="loaderOffset"></path>
+																	</svg>
+																  </div>
 								</ul>
 							</form>
 						
@@ -446,10 +526,12 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/v-mask/dist/v-mask.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
 <script>
 Vue.use(VueMask.VueMaskPlugin);
 </script>
 <script>
+const circumference = 157
 const app = new Vue({
   el:'#app',
   data: {
@@ -461,7 +543,11 @@ const app = new Vue({
       type: '',
       record: '',
 	  phone: '',
-	  results: []
+	  results: [],
+	  clicked: false,
+	  loading: false,
+	  loaded: false,
+	  loaderOffset: circumference
   },  
    methods: {
     handleSubmit() {
@@ -488,9 +574,29 @@ const app = new Vue({
             }).then(response => {
                             
 							console.log(response.data); 
-							this.success = response.data.success;
-							this.warning = response.data.warning;
-							this.errors = "";
+							
+							if  (response.data.success)
+							{
+								this.success = response.data.success;
+								this.errors = "";
+								if (this.clicked && !this.loaded)
+									return
+								// restart when button finished the animation
+									if (this.loaded) {
+										this.restart()
+										return
+									}
+									// start loading animation 
+									this.clicked = true
+									// when css transition ends, execute animateLoader method
+									this.$refs['submit-btn'].addEventListener("transitionend", 
+										this.animateLoader, false);
+							} else if (response.data.warning){
+								this.warning = response.data.warning;
+								this.errors = "";
+							} else {
+								alert("Some unkown error has occured.")
+							}
                     })
                     .catch(error =>{
             			const response = error.response;
@@ -538,6 +644,43 @@ const app = new Vue({
 		this.$refs.phone.focus();
 		}
 	},
+    animateLoader () {
+      this.loading = true
+      // remove transition end event listener
+      this.$refs['submit-btn'].removeEventListener("transitionend", 
+        this.animateLoader, false);
+      
+      // animate the loaderOffset property,
+      // on production this should be replaced 
+      // with the real loading progress
+      TweenLite.to(this, 2, {
+        loaderOffset: 0,
+        ease: Power4.easeInOut,
+        onComplete: this.completeLoading // execute this method when animation ends
+      })
+    },
+    completeLoading () {
+      this.loading = false
+      this.loaded = true
+    },
+    restart () {
+      this.clicked = false
+      this.loaded = false
+      this.loaderOffset = circumference
+    }
+  },
+  computed: {
+    buttonClass () {
+      if (this.loaded) {
+        return 'loaded'
+      }
+      
+      if (this.clicked) {
+        return 'round'
+      }
+      
+      return ''
+    }
   }
 })
 </script>
